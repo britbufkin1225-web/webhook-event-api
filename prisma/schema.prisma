@@ -1,0 +1,20 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  source      String
+  eventType   String
+  payload     String
+  processed   Boolean  @default(false)
+  receivedAt  DateTime @default(now())
+  processedAt DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
