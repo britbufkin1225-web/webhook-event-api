@@ -10,6 +10,29 @@ Modern applications often rely on webhooks to send event notifications between s
 
 The goal is to build a compact but professional backend API that demonstrates real-world development patterns without becoming unnecessarily bloated.
 
+## Project Status
+
+Current status: **Active development**
+
+Completed foundation work:
+
+- NestJS application initialized
+- Prisma configured
+- SQLite database foundation added
+- Environment variables documented
+- Events module foundation created
+- Repository documentation started
+
+Upcoming work:
+
+- Event Prisma model expansion
+- Event creation endpoint
+- Event retrieval endpoints
+- Event status tracking
+- Validation and error handling
+- Test coverage
+- API documentation
+
 ## Core Features
 
 Planned and/or implemented features include:
@@ -52,6 +75,19 @@ Planned and/or implemented features include:
 
 Endpoint names may change as the project evolves.
 
+## Repository Structure
+
+```text
+webhook-event-api/
+├── docs/          # Project documentation
+├── prisma/        # Prisma schema and migrations
+├── src/           # NestJS application source code
+├── test/          # Test files
+├── .env.example   # Example environment variables
+├── README.md      # Project overview
+└── package.json   # Project scripts and dependencies
+```
+
 ## Documentation
 
 Project documentation lives in the [`docs`](docs/) folder.
@@ -59,32 +95,16 @@ Project documentation lives in the [`docs`](docs/) folder.
 Current documentation:
 
 - [Documentation Index](docs/README.md)
+- [Environment Variables](docs/environment-variables.md)
+- [Session 7.5 — Documentation and Repository Polish](docs/session-7-5-repo-polish.md)
 
 Planned documentation:
 
 - API endpoint reference
 - Database schema notes
-- Environment variable guide
 - Testing notes
 - Project status tracker
 - Development workflow notes
-
-## Project Status
-
-Current phase:
-
-```text
-Foundation setup and starter documentation
-```
-
-Completed setup items:
-
-- Repository created
-- Git initialized
-- `.gitignore` added
-- License added
-- Starter README created
-- Documentation folder started
 
 ## Portfolio Value
 
@@ -97,6 +117,9 @@ This project is intended to demonstrate:
 - Security-aware backend thinking
 - Professional documentation habits
 - Testable service/controller design
+- Prisma ORM usage
+- SQLite persistence
+- Environment configuration
 
 ## Development Notes
 
@@ -104,5 +127,4 @@ This project is being built in small, documented sessions. Each session focuses 
 
 ## License
 
-This project is licensed under the terms included in the repository license file.n
-
+This project is licensed under the terms included in the repository license file.
