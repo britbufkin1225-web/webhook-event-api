@@ -7,14 +7,26 @@ datasource db {
   provider = "sqlite"
 }
 
+model Geofence {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  latitude    Float
+  longitude   Float
+  radius      Float
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 model Event {
-  id          String   @id @default(uuid())
+  id          String    @id @default(uuid())
   source      String
   eventType   String
   payload     String
-  processed   Boolean  @default(false)
-  receivedAt  DateTime @default(now())
+  processed   Boolean   @default(false)
+  receivedAt  DateTime  @default(now())
   processedAt DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }
