@@ -1,20 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
+import { CreateEventDto } from './dto/create-event.dto';
 import { PrismaService } from '../prisma/prisma.service';
-
-type CreateEventInput = {
-  source: string;
-  eventType: string;
-  payload: string;
-};
 
 @Injectable()
 export class EventsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createEventInput: CreateEventInput) {
+  async create(createEventDto: CreateEventDto) {
     return this.prisma.event.create({
-      data: createEventInput,
+      data: createEventDto,
     });
   }
 
