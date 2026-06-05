@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { envValidationSchema } from './config/env.validation';
 import { EventsModule } from './events/events.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { EventsModule } from './events/events.module';
       isGlobal: true,
       validationSchema: envValidationSchema,
     }),
+    PrismaModule,
     EventsModule,
   ],
   controllers: [AppController],
