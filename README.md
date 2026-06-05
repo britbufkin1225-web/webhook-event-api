@@ -1,14 +1,14 @@
 # Webhook Receiver + Event Processing API
 
-A backend-focused API project for receiving webhook events, validating incoming payloads, storing event records, and exposing structured endpoints for reviewing event activity.
+A NestJS backend API for receiving, validating, storing, and processing webhook events with Prisma and SQLite.
 
-This project is designed as a portfolio-ready backend system that demonstrates API design, request handling, validation, database persistence, documentation, and security-aware development practices.
+This project is designed as a portfolio-ready backend system that demonstrates API design, request handling, validation, database persistence, documentation, testing, and security-aware development practices.
 
 ## Project Purpose
 
-Modern applications often rely on webhooks to send event notifications between services. This project simulates a production-style webhook receiver that can accept incoming events, process them safely, and make the stored event data available through clean API endpoints.
+Modern applications often rely on webhooks to send event notifications between services. This project simulates a production-style webhook receiver that can accept incoming events, validate payloads, store event records, and expose clean API endpoints for reviewing event activity.
 
-The goal is to build a compact but professional backend API that demonstrates real-world development patterns without becoming unnecessarily bloated.
+The goal is to build a compact but professional backend API that demonstrates real-world backend development patterns without becoming unnecessarily bloated.
 
 ## Project Status
 
@@ -20,12 +20,14 @@ Completed foundation work:
 - Prisma configured
 - SQLite database foundation added
 - Environment variables documented
+- Event model added to Prisma schema
+- Geofence model restored to Prisma schema
 - Events module foundation created
 - Repository documentation started
+- Basic testing workflow established
 
-Upcoming work:
+Current focus:
 
-- Event Prisma model expansion
 - Event creation endpoint
 - Event retrieval endpoints
 - Event status tracking
@@ -44,6 +46,8 @@ Planned and/or implemented features include:
 - Event history retrieval
 - Event detail lookup
 - Event summary endpoint
+- Processed/unprocessed event tracking
+- Geofence CRUD support
 - Basic API health check
 - Environment variable configuration
 - Structured documentation
@@ -68,12 +72,29 @@ Planned and/or implemented features include:
 | --- | --- | --- |
 | GET | `/` | Basic root response |
 | GET | `/health` | API health check |
-| POST | `/webhooks/events` | Receive webhook event payloads |
+| POST | `/events` | Receive and store event payloads |
 | GET | `/events` | List stored events |
 | GET | `/events/:id` | Retrieve a single event |
+| PATCH | `/events/:id/process` | Mark an event as processed |
 | GET | `/events/summary` | View event count summaries |
+| POST | `/geofences` | Create a geofence |
+| GET | `/geofences` | List geofences |
+| GET | `/geofences/:id` | Retrieve a single geofence |
+| PATCH | `/geofences/:id` | Update a geofence |
+| DELETE | `/geofences/:id` | Delete a geofence |
 
 Endpoint names may change as the project evolves.
+
+## Database Models
+
+Current Prisma models include:
+
+- `Event`
+- `Geofence`
+
+The `Event` model stores incoming webhook/event records and tracks whether each event has been processed.
+
+The `Geofence` model supports location-based records with coordinates, radius, active status, and timestamps.
 
 ## Repository Structure
 
@@ -120,6 +141,8 @@ This project is intended to demonstrate:
 - Prisma ORM usage
 - SQLite persistence
 - Environment configuration
+- CRUD endpoint design
+- Modular NestJS architecture
 
 ## Development Notes
 
