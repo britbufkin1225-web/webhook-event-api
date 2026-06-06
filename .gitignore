@@ -154,3 +154,9 @@ prisma/dev.db
 prisma/dev.db-journal
 prisma/dev.db-wal
 prisma/dev.db-shm
+
+# Local-only private workflow reference
+docs/local-shorthand.md
+
+# Local-only session draft
+docs/session-13-5-repo-polish.md
