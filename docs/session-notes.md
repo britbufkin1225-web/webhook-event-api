@@ -85,7 +85,7 @@ Last known git status:
 
 Suggested next workflow:
 
-Session 13 — Event Processing Status Update
+Session 15 — Event Processing Status Update
 
 Potential focus:
 
@@ -116,7 +116,7 @@ Update this file whenever one of the following happens:
 - A new project decision is made
 - The next-session starting point changes
 
-# Session Summary Reference
+## Session Summary Reference
 
 ## Session 1 — Project Blueprint + Repository Setup
 
@@ -172,4 +172,48 @@ Planned next workflow: add support for marking an Event as processed, including 
 
 ## Session 13.5 — Session Notes Creation + Update
 
+## Session 14 — Event Test Coverage Expansion
+
+Expanded Events controller and service test coverage to better verify current backend behavior.
+
+Completed work included:
+
+- Added Events controller test coverage
+- Added Events service test coverage
+- Confirmed event creation behavior
+- Confirmed event list retrieval behavior
+- Confirmed event detail lookup behavior
+- Confirmed not-found handling for missing Event IDs
+- Confirmed current test suite passes
+
+Result:
+
+- Test suites: 3 passed / 3 total
+- Tests: 11 passed / 11 total
+
+## Session 14.5 — Documentation Sync
+
+Synchronized project documentation with the current backend implementation status.
+
+Completed work included:
+
+- Updated README project status
+- Confirmed implemented Event endpoints are documented
+- Confirmed Event creation, listing, and detail lookup are marked as implemented
+- Updated current focus and planned work sections
+- Confirmed testing status reflects current passing test count
+- Confirmed portfolio value section reflects backend, Prisma, validation, error handling, and testing work
+
+Current project state:
+
+- Event creation endpoint implemented
+- Event list endpoint implemented
+- Event detail lookup endpoint implemented
+- Basic validation and error handling implemented
+- Controller and service test coverage expanded
+- Documentation updated to match current implementation
+
+Result:
+
+README documentation is now aligned with the current project state.
 Created or updated `docs/session-notes.md` to track project progress, testing status, Git status, decisions, and next-session starting point.

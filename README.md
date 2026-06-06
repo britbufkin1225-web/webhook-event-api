@@ -33,19 +33,19 @@ Current status: **Active development**
 
 ### Current Focus
 
-- Expanding controller and service test coverage
+- Keeping documentation aligned with implemented features
 - Improving event response consistency
 - Refining validation and error handling
-- Keeping documentation aligned with implemented features
+- Expanding controller and service test coverage
 - Preparing the project for cleaner portfolio presentation
 
 ### Planned Work
 
-- Event processed/unprocessed status updates
+- Event processed/unprocessed status update endpoint
 - Event summary endpoint
 - API endpoint reference documentation
 - Additional test coverage
-- Request/security hardening improvements
+- Request and security hardening improvements
 
 ## Core Features
 
