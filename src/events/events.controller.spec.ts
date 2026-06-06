@@ -7,7 +7,7 @@ describe('EventsController', () => {
   let controller: EventsController;
 
   const mockEventsService = {
-    findAll: jest.fn().mockReturnValue([]),
+    findAll: jest.fn().mockResolvedValue([]),
   };
 
   beforeEach(async () => {
@@ -28,7 +28,13 @@ describe('EventsController', () => {
     expect(controller).toBeDefined();
   });
 
-  it('should return an empty events array', () => {
-    expect(controller.findAll()).toEqual([]);
+  it('should return an empty events array', async () => {
+    const result = await controller.findAll();
+
+    expect(result).toEqual({
+      count: 0,
+      data: [],
+      message: 'Events retrieved successfully',
+    });
   });
 });
