@@ -8,17 +8,33 @@ export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
 
   @Post()
-  create(@Body() createEventDto: CreateEventDto) {
-    return this.eventsService.create(createEventDto);
+  async create(@Body() createEventDto: CreateEventDto) {
+    const event = await this.eventsService.create(createEventDto);
+
+    return {
+      message: 'Event created successfully',
+      data: event,
+    };
   }
 
   @Get()
-  findAll() {
-    return this.eventsService.findAll();
+  async findAll() {
+    const events = await this.eventsService.findAll();
+
+    return {
+      message: 'Events retrieved successfully',
+      count: events.length,
+      data: events,
+    };
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.eventsService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const event = await this.eventsService.findOne(id);
+
+    return {
+      message: 'Event retrieved successfully',
+      data: event,
+    };
   }
 }
