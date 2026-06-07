@@ -8,6 +8,12 @@ type CreateEventInput = {
   payload: string;
 };
 
+type FindEventsFilters = {
+  source?: string;
+  eventType?: string;
+  processed?: string;
+};
+
 @Injectable()
 export class EventsService {
   constructor(private readonly prisma: PrismaService) {}
@@ -18,14 +24,36 @@ export class EventsService {
     });
   }
 
-  async findAll() {
+  async findAll(filters: FindEventsFilters = {}) {
+    const where: {
+      source?: string;
+      eventType?: string;
+      processed?: boolean;
+    } = {};
+
+    if (filters.source) {
+      where.source = filters.source;
+    }
+
+    if (filters.eventType) {
+      where.eventType = filters.eventType;
+    }
+
+    if (filters.processed === 'true') {
+      where.processed = true;
+    }
+
+    if (filters.processed === 'false') {
+      where.processed = false;
+    }
+
     return this.prisma.event.findMany({
+      where,
       orderBy: {
         receivedAt: 'desc',
       },
     });
   }
-
   async findOne(id: string) {
     const event = await this.prisma.event.findUnique({
       where: {

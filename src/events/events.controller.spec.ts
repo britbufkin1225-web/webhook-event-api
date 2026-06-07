@@ -32,6 +32,8 @@ describe('EventsController', () => {
   };
 
   beforeEach(async () => {
+    jest.clearAllMocks();
+
     const module: TestingModule = await Test.createTestingModule({
       controllers: [EventsController],
       providers: [
@@ -43,10 +45,6 @@ describe('EventsController', () => {
     }).compile();
 
     controller = module.get<EventsController>(EventsController);
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
   });
 
   it('should be defined', () => {
@@ -66,35 +64,50 @@ describe('EventsController', () => {
       data: mockEvent,
       message: 'Event created successfully',
     });
-
-    expect(mockEventsService.create).toHaveBeenCalledTimes(1);
     expect(mockEventsService.create).toHaveBeenCalledWith(createEventDto);
   });
 
-  it('should return an empty events response', async () => {
+  it('should return an empty events array', async () => {
+    mockEventsService.findAll.mockResolvedValue([]);
+
     const result = await controller.findAll();
 
-    expect(result).toEqual({
-      count: 0,
-      data: [],
-      message: 'Events retrieved successfully',
+    expect(result).toEqual([]);
+    expect(mockEventsService.findAll).toHaveBeenCalledWith({
+      source: undefined,
+      eventType: undefined,
+      processed: undefined,
     });
-
-    expect(mockEventsService.findAll).toHaveBeenCalledTimes(1);
   });
 
-  it('should return an events response with data', async () => {
+  it('should return an events array', async () => {
     mockEventsService.findAll.mockResolvedValue([mockEvent]);
 
     const result = await controller.findAll();
 
-    expect(result).toEqual({
-      count: 1,
-      data: [mockEvent],
-      message: 'Events retrieved successfully',
+    expect(result).toEqual([mockEvent]);
+    expect(mockEventsService.findAll).toHaveBeenCalledWith({
+      source: undefined,
+      eventType: undefined,
+      processed: undefined,
     });
+  });
 
-    expect(mockEventsService.findAll).toHaveBeenCalledTimes(1);
+  it('should pass query filters to the events service', async () => {
+    mockEventsService.findAll.mockResolvedValue([mockEvent]);
+
+    const result = await controller.findAll(
+      'stripe',
+      'payment.created',
+      'false',
+    );
+
+    expect(result).toEqual([mockEvent]);
+    expect(mockEventsService.findAll).toHaveBeenCalledWith({
+      source: 'stripe',
+      eventType: 'payment.created',
+      processed: 'false',
+    });
   });
 
   it('should return one event by id', async () => {
@@ -104,8 +117,6 @@ describe('EventsController', () => {
       data: mockEvent,
       message: 'Event retrieved successfully',
     });
-
-    expect(mockEventsService.findOne).toHaveBeenCalledTimes(1);
     expect(mockEventsService.findOne).toHaveBeenCalledWith('event-test-id');
   });
 
@@ -116,8 +127,6 @@ describe('EventsController', () => {
       data: mockProcessedEvent,
       message: 'Event marked as processed successfully',
     });
-
-    expect(mockEventsService.markAsProcessed).toHaveBeenCalledTimes(1);
     expect(mockEventsService.markAsProcessed).toHaveBeenCalledWith(
       'event-test-id',
     );

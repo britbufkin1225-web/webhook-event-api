@@ -75,6 +75,7 @@ describe('EventsService', () => {
     expect(result).toEqual([mockEvent]);
     expect(mockPrismaService.event.findMany).toHaveBeenCalledTimes(1);
     expect(mockPrismaService.event.findMany).toHaveBeenCalledWith({
+      where: {},
       orderBy: {
         receivedAt: 'desc',
       },
