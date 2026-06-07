@@ -55,30 +55,6 @@ export class EventsService {
     });
   }
 
-  async getSummary() {
-    const [totalEvents, processedEvents, unprocessedEvents] = await Promise.all(
-      [
-        this.prisma.event.count(),
-        this.prisma.event.count({
-          where: {
-            processed: true,
-          },
-        }),
-        this.prisma.event.count({
-          where: {
-            processed: false,
-          },
-        }),
-      ],
-    );
-
-    return {
-      totalEvents,
-      processedEvents,
-      unprocessedEvents,
-    };
-  }
-
   async findOne(id: string) {
     const event = await this.prisma.event.findUnique({
       where: {
@@ -94,15 +70,7 @@ export class EventsService {
   }
 
   async markAsProcessed(id: string) {
-    const event = await this.prisma.event.findUnique({
-      where: {
-        id,
-      },
-    });
-
-    if (!event) {
-      throw new NotFoundException(`Event with id ${id} not found`);
-    }
+    await this.findOne(id);
 
     return this.prisma.event.update({
       where: {
@@ -113,5 +81,63 @@ export class EventsService {
         processedAt: new Date(),
       },
     });
+  }
+
+  async getSummary() {
+    const [
+      totalEvents,
+      processedEvents,
+      unprocessedEvents,
+      sourceGroups,
+      eventTypeGroups,
+    ] = await Promise.all([
+      this.prisma.event.count(),
+      this.prisma.event.count({
+        where: {
+          processed: true,
+        },
+      }),
+      this.prisma.event.count({
+        where: {
+          processed: false,
+        },
+      }),
+      this.prisma.event.groupBy({
+        by: ['source'],
+        _count: {
+          source: true,
+        },
+      }),
+      this.prisma.event.groupBy({
+        by: ['eventType'],
+        _count: {
+          eventType: true,
+        },
+      }),
+    ]);
+
+    const sources = sourceGroups.reduce<Record<string, number>>(
+      (acc, group) => {
+        acc[group.source] = group._count.source;
+        return acc;
+      },
+      {},
+    );
+
+    const eventTypes = eventTypeGroups.reduce<Record<string, number>>(
+      (acc, group) => {
+        acc[group.eventType] = group._count.eventType;
+        return acc;
+      },
+      {},
+    );
+
+    return {
+      totalEvents,
+      processedEvents,
+      unprocessedEvents,
+      sources,
+      eventTypes,
+    };
   }
 }

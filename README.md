@@ -31,6 +31,8 @@ Current status: **Active development**
 - Basic validation and error handling added
 - Controller and service test coverage expanded
 - Basic testing workflow established
+- Event summary endpoint added
+- Event summary response expanded with processing, source, and event type counts
 - Repository documentation started
 
 ### Current Focus
@@ -43,7 +45,6 @@ Current status: **Active development**
 
 ### Planned Work
 
-- Event summary endpoint
 - API endpoint reference documentation
 - Additional test coverage
 - Request and security hardening improvements
@@ -107,7 +108,7 @@ Current status: **Active development**
 | GET | `/events` | List stored events with optional filtering | Implemented |
 | GET | `/events/:id` | Retrieve a single event | Implemented |
 | PATCH | `/events/:id/process` | Mark an event as processed | Implemented |
-| GET | `/events/summary` | View event count summaries | Planned |
+| GET | `/events/summary` | View event count summaries grouped by processing status, source, and event type | Implemented |
 
 ### Event Filtering
 
@@ -137,6 +138,41 @@ Example requests:
 | `GET /events?source=stripe&eventType=payment.created&processed=false` | Combine multiple filters |
 
 Filtering is optional. If no query parameters are provided, the endpoint returns all stored events ordered by most recently received first.
+
+### Event Summary
+
+The event summary endpoint returns aggregate statistics for stored webhook events.
+
+Endpoint:
+
+`GET /events/summary`
+
+The response includes:
+
+- Total stored events
+- Total processed events
+- Total unprocessed events
+- Event counts grouped by source
+- Event counts grouped by event type
+
+Example response:
+
+```json
+{
+  "totalEvents": 10,
+  "processedEvents": 6,
+  "unprocessedEvents": 4,
+  "sources": {
+    "stripe": 5,
+    "github": 3,
+    "shopify": 2
+  },
+  "eventTypes": {
+    "payment.created": 4,
+    "repo.push": 3,
+    "order.created": 3
+  }
+}
 
 ### Geofence Endpoints
 
@@ -194,7 +230,7 @@ Current geofence fields include:
 Current test status:
 
 - Test suites: 3 passed / 3 total
-- Tests: 15 passed / 15 total
+- Tests: 16 passed / 16 total
 
 Current tested areas:
 
@@ -221,6 +257,9 @@ Recent Events coverage includes:
 - Marking an event as processed through the service
 - Setting the `processedAt` timestamp when an event is processed
 - Throwing `NotFoundException` when an event ID does not exist
+- Returning event summary totals
+- Returning processed and unprocessed event counts
+- Returning event counts grouped by source and event type
 
 ## Repository Structure
 
