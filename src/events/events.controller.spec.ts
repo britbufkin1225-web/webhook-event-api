@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { EventsController } from './events.controller';
@@ -108,6 +109,27 @@ describe('EventsController', () => {
       eventType: 'payment.created',
       processed: 'false',
     });
+  });
+
+  it('should allow processed=true query filter', async () => {
+    mockEventsService.findAll.mockResolvedValue([mockProcessedEvent]);
+
+    const result = await controller.findAll(undefined, undefined, 'true');
+
+    expect(result).toEqual([mockProcessedEvent]);
+    expect(mockEventsService.findAll).toHaveBeenCalledWith({
+      source: undefined,
+      eventType: undefined,
+      processed: 'true',
+    });
+  });
+
+  it('should reject an invalid processed query value', () => {
+    expect(() =>
+      controller.findAll(undefined, undefined, 'banana'),
+    ).toThrow(BadRequestException);
+
+    expect(mockEventsService.findAll).not.toHaveBeenCalled();
   });
 
   it('should return one event by id', async () => {

@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Get,
@@ -31,6 +32,14 @@ export class EventsController {
     @Query('eventType') eventType?: string,
     @Query('processed') processed?: string,
   ) {
+    if (
+      processed !== undefined &&
+      processed !== 'true' &&
+      processed !== 'false'
+    ) {
+      throw new BadRequestException('processed must be either true or false');
+    }
+
     return this.eventsService.findAll({
       source,
       eventType,
