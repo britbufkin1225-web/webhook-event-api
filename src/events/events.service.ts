@@ -54,6 +54,30 @@ export class EventsService {
       },
     });
   }
+
+  async getSummary() {
+    const [totalEvents, processedEvents, unprocessedEvents] = await Promise.all(
+      [
+        this.prisma.event.count(),
+        this.prisma.event.count({
+          where: {
+            processed: true,
+          },
+        }),
+        this.prisma.event.count({
+          where: {
+            processed: false,
+          },
+        }),
+      ],
+    );
+
+    return {
+      totalEvents,
+      processedEvents,
+      unprocessedEvents,
+    };
+  }
   async findOne(id: string) {
     const event = await this.prisma.event.findUnique({
       where: {

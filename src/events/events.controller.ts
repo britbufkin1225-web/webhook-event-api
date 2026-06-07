@@ -47,6 +47,11 @@ export class EventsController {
     });
   }
 
+  @Get('summary')
+  getSummary() {
+    return this.eventsService.getSummary();
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const event = await this.eventsService.findOne(id);
