@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 
 import { CreateEventDto } from './dto/create-event.dto';
 import { EventsService } from './events.service';
@@ -12,8 +12,8 @@ export class EventsController {
     const event = await this.eventsService.create(createEventDto);
 
     return {
-      message: 'Event created successfully',
       data: event,
+      message: 'Event created successfully',
     };
   }
 
@@ -22,9 +22,9 @@ export class EventsController {
     const events = await this.eventsService.findAll();
 
     return {
-      message: 'Events retrieved successfully',
       count: events.length,
       data: events,
+      message: 'Events retrieved successfully',
     };
   }
 
@@ -33,8 +33,18 @@ export class EventsController {
     const event = await this.eventsService.findOne(id);
 
     return {
-      message: 'Event retrieved successfully',
       data: event,
+      message: 'Event retrieved successfully',
+    };
+  }
+
+  @Patch(':id/process')
+  async markAsProcessed(@Param('id') id: string) {
+    const event = await this.eventsService.markAsProcessed(id);
+
+    return {
+      data: event,
+      message: 'Event marked as processed successfully',
     };
   }
 }

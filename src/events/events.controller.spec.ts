@@ -18,10 +18,17 @@ describe('EventsController', () => {
     updatedAt: new Date(),
   };
 
+  const mockProcessedEvent = {
+    ...mockEvent,
+    processed: true,
+    processedAt: new Date(),
+  };
+
   const mockEventsService = {
     create: jest.fn().mockResolvedValue(mockEvent),
     findAll: jest.fn().mockResolvedValue([]),
     findOne: jest.fn().mockResolvedValue(mockEvent),
+    markAsProcessed: jest.fn().mockResolvedValue(mockProcessedEvent),
   };
 
   beforeEach(async () => {
@@ -100,5 +107,19 @@ describe('EventsController', () => {
 
     expect(mockEventsService.findOne).toHaveBeenCalledTimes(1);
     expect(mockEventsService.findOne).toHaveBeenCalledWith('event-test-id');
+  });
+
+  it('should mark an event as processed', async () => {
+    const result = await controller.markAsProcessed('event-test-id');
+
+    expect(result).toEqual({
+      data: mockProcessedEvent,
+      message: 'Event marked as processed successfully',
+    });
+
+    expect(mockEventsService.markAsProcessed).toHaveBeenCalledTimes(1);
+    expect(mockEventsService.markAsProcessed).toHaveBeenCalledWith(
+      'event-test-id',
+    );
   });
 });
