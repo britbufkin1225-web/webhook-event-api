@@ -78,6 +78,7 @@ export class EventsService {
       unprocessedEvents,
     };
   }
+
   async findOne(id: string) {
     const event = await this.prisma.event.findUnique({
       where: {

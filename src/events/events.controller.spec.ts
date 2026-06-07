@@ -25,11 +25,24 @@ describe('EventsController', () => {
     processedAt: new Date(),
   };
 
+  const mockSummary = {
+    totalEvents: 2,
+    processedEvents: 1,
+    unprocessedEvents: 1,
+    eventsBySource: {
+      stripe: 2,
+    },
+    eventsByType: {
+      'payment.created': 2,
+    },
+  };
+
   const mockEventsService = {
     create: jest.fn().mockResolvedValue(mockEvent),
     findAll: jest.fn().mockResolvedValue([]),
     findOne: jest.fn().mockResolvedValue(mockEvent),
     markAsProcessed: jest.fn().mockResolvedValue(mockProcessedEvent),
+    getSummary: jest.fn().mockResolvedValue(mockSummary),
   };
 
   beforeEach(async () => {
@@ -125,11 +138,18 @@ describe('EventsController', () => {
   });
 
   it('should reject an invalid processed query value', () => {
-    expect(() =>
-      controller.findAll(undefined, undefined, 'banana'),
-    ).toThrow(BadRequestException);
+    expect(() => controller.findAll(undefined, undefined, 'banana')).toThrow(
+      BadRequestException,
+    );
 
     expect(mockEventsService.findAll).not.toHaveBeenCalled();
+  });
+
+  it('should return event summary', async () => {
+    const result = await controller.getSummary();
+
+    expect(result).toEqual(mockSummary);
+    expect(mockEventsService.getSummary).toHaveBeenCalledWith();
   });
 
   it('should return one event by id', async () => {
