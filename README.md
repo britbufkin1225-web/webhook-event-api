@@ -34,6 +34,7 @@ Current status: **Active development**
 - Event summary controller test coverage added
 - Event summary service test coverage added
 - Event filtering, processing, and summary workflows tested
+- Standard event API response shape added
 - Basic validation and error handling added
 - Controller and service test coverage expanded
 - Basic testing workflow established
@@ -68,6 +69,7 @@ Current status: **Active development**
 - Event processed/unprocessed status tracking
 - Event summary reporting
 - Event summary aggregation by processing status, source, and event type
+- Standardized event API response structure
 - Not-found handling for missing events
 - Geofence CRUD support
 - Environment variable configuration
@@ -112,8 +114,104 @@ Current status: **Active development**
 | POST | `/events` | Receive and store event payloads | Implemented |
 | GET | `/events` | List stored events with optional filtering | Implemented |
 | GET | `/events/:id` | Retrieve a single event | Implemented |
-| PATCH | `/events/:id/process` | Mark an event as processed | Implemented |
+| PATCH | `/events/:id/processed` | Mark an event as processed | Implemented |
 | GET | `/events/summary` | View event count summaries grouped by processing status, source, and event type | Implemented |
+
+### Standard Event API Response Shape
+
+Event endpoints return a consistent response object containing a success flag, message, and data payload.
+
+Standard success response format:
+
+```json
+{
+  "success": true,
+  "message": "Request completed successfully",
+  "data": {}
+}
+```
+
+Create event response example:
+
+```json
+{
+  "success": true,
+  "message": "Event created successfully",
+  "data": {
+    "id": "event-test-id",
+    "source": "stripe",
+    "eventType": "payment.created",
+    "payload": "{\"amount\":1000}",
+    "processed": false,
+    "receivedAt": "2026-06-07T18:04:49.152Z",
+    "processedAt": null,
+    "createdAt": "2026-06-07T18:04:49.152Z",
+    "updatedAt": "2026-06-07T18:04:49.152Z"
+  }
+}
+```
+
+List events response example:
+
+```json
+{
+  "success": true,
+  "message": "Events retrieved successfully",
+  "data": [
+    {
+      "id": "event-test-id",
+      "source": "stripe",
+      "eventType": "payment.created",
+      "payload": "{\"amount\":1000}",
+      "processed": false,
+      "receivedAt": "2026-06-07T18:04:49.152Z",
+      "processedAt": null,
+      "createdAt": "2026-06-07T18:04:49.152Z",
+      "updatedAt": "2026-06-07T18:04:49.152Z"
+    }
+  ]
+}
+```
+
+Single event response example:
+
+```json
+{
+  "success": true,
+  "message": "Event retrieved successfully",
+  "data": {
+    "id": "event-test-id",
+    "source": "stripe",
+    "eventType": "payment.created",
+    "payload": "{\"amount\":1000}",
+    "processed": false,
+    "receivedAt": "2026-06-07T18:04:49.152Z",
+    "processedAt": null,
+    "createdAt": "2026-06-07T18:04:49.152Z",
+    "updatedAt": "2026-06-07T18:04:49.152Z"
+  }
+}
+```
+
+Processed event response example:
+
+```json
+{
+  "success": true,
+  "message": "Event marked as processed successfully",
+  "data": {
+    "id": "event-test-id",
+    "source": "stripe",
+    "eventType": "payment.created",
+    "payload": "{\"amount\":1000}",
+    "processed": true,
+    "receivedAt": "2026-06-07T18:04:49.152Z",
+    "processedAt": "2026-06-07T18:10:12.221Z",
+    "createdAt": "2026-06-07T18:04:49.152Z",
+    "updatedAt": "2026-06-07T18:10:12.221Z"
+  }
+}
+```
 
 ### Event Filtering
 
@@ -144,6 +242,8 @@ Example requests:
 
 Filtering is optional. If no query parameters are provided, the endpoint returns all stored events ordered by most recently received first.
 
+Invalid `processed` query values are rejected. The only supported values are `true` and `false`.
+
 ### Event Summary
 
 The event summary endpoint returns aggregate statistics for stored webhook events.
@@ -155,12 +255,32 @@ Endpoint:
 Returned summary data includes:
 
 | Field | Description |
-|---|---|
+| --- | --- |
 | `totalEvents` | Total number of stored events |
 | `processedEvents` | Number of events marked as processed |
 | `unprocessedEvents` | Number of events not yet processed |
-| `eventsBySource` | Event counts grouped by source |
-| `eventsByType` | Event counts grouped by event type |
+| `sources` | Event counts grouped by source |
+| `eventTypes` | Event counts grouped by event type |
+
+Example response:
+
+```json
+{
+  "success": true,
+  "message": "Event summary retrieved successfully",
+  "data": {
+    "totalEvents": 2,
+    "processedEvents": 1,
+    "unprocessedEvents": 1,
+    "sources": {
+      "stripe": 2
+    },
+    "eventTypes": {
+      "payment.created": 2
+    }
+  }
+}
+```
 
 ### Geofence Endpoints
 
@@ -218,24 +338,29 @@ Current geofence fields include:
 Current test status:
 
 - Test suites: 3 passed / 3 total
-- Tests: 18 passed / 18 total
+- Tests: 16 passed / 16 total
 
 Current tested areas:
 
 - App controller default behavior
 - Events controller response handling
+- Events controller response metadata
+- Events controller query validation
 - Events service creation behavior
 - Events service list retrieval behavior
 - Events service filtering behavior
 - Events service single-record lookup behavior
 - Events processed status update behavior
 - Events not-found error handling
+- Event summary aggregation behavior
 
 Recent Events coverage includes:
 
 - Creating an event through the controller
 - Returning all events with response metadata
-- Returning a single event by ID
+- Returning filtered events with response metadata
+- Rejecting invalid `processed` query values
+- Returning a single event by ID with response metadata
 - Marking an event as processed through the controller
 - Creating an event through the service
 - Fetching events ordered by `receivedAt` descending
@@ -288,6 +413,7 @@ This project is intended to demonstrate:
 - Backend API structure
 - Modular NestJS architecture
 - Request and response handling
+- Consistent API response design
 - Database-backed event storage
 - Prisma ORM usage
 - SQLite persistence
