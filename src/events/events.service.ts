@@ -14,6 +14,14 @@ type FindEventsFilters = {
   processed?: string;
 };
 
+type EventSummary = {
+  totalEvents: number;
+  processedEvents: number;
+  unprocessedEvents: number;
+  sources: Record<string, number>;
+  eventTypes: Record<string, number>;
+};
+
 @Injectable()
 export class EventsService {
   constructor(private readonly prisma: PrismaService) {}
@@ -83,7 +91,7 @@ export class EventsService {
     });
   }
 
-  async getSummary() {
+  async getSummary(): Promise<EventSummary> {
     const [
       totalEvents,
       processedEvents,

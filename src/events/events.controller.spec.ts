@@ -29,10 +29,10 @@ describe('EventsController', () => {
     totalEvents: 2,
     processedEvents: 1,
     unprocessedEvents: 1,
-    eventsBySource: {
+    sources: {
       stripe: 2,
     },
-    eventsByType: {
+    eventTypes: {
       'payment.created': 2,
     },
   };
