@@ -75,9 +75,11 @@ describe('EventsController', () => {
     const result = await controller.create(createEventDto);
 
     expect(result).toEqual({
-      data: mockEvent,
+      success: true,
       message: 'Event created successfully',
+      data: mockEvent,
     });
+
     expect(mockEventsService.create).toHaveBeenCalledWith(createEventDto);
   });
 
@@ -86,7 +88,12 @@ describe('EventsController', () => {
 
     const result = await controller.findAll();
 
-    expect(result).toEqual([]);
+    expect(result).toEqual({
+      success: true,
+      message: 'Events retrieved successfully',
+      data: [],
+    });
+
     expect(mockEventsService.findAll).toHaveBeenCalledWith({
       source: undefined,
       eventType: undefined,
@@ -99,7 +106,12 @@ describe('EventsController', () => {
 
     const result = await controller.findAll();
 
-    expect(result).toEqual([mockEvent]);
+    expect(result).toEqual({
+      success: true,
+      message: 'Events retrieved successfully',
+      data: [mockEvent],
+    });
+
     expect(mockEventsService.findAll).toHaveBeenCalledWith({
       source: undefined,
       eventType: undefined,
@@ -116,7 +128,12 @@ describe('EventsController', () => {
       'false',
     );
 
-    expect(result).toEqual([mockEvent]);
+    expect(result).toEqual({
+      success: true,
+      message: 'Events retrieved successfully',
+      data: [mockEvent],
+    });
+
     expect(mockEventsService.findAll).toHaveBeenCalledWith({
       source: 'stripe',
       eventType: 'payment.created',
@@ -129,7 +146,12 @@ describe('EventsController', () => {
 
     const result = await controller.findAll(undefined, undefined, 'true');
 
-    expect(result).toEqual([mockProcessedEvent]);
+    expect(result).toEqual({
+      success: true,
+      message: 'Events retrieved successfully',
+      data: [mockProcessedEvent],
+    });
+
     expect(mockEventsService.findAll).toHaveBeenCalledWith({
       source: undefined,
       eventType: undefined,
@@ -137,10 +159,10 @@ describe('EventsController', () => {
     });
   });
 
-  it('should reject an invalid processed query value', () => {
-    expect(() => controller.findAll(undefined, undefined, 'banana')).toThrow(
-      BadRequestException,
-    );
+  it('should reject an invalid processed query value', async () => {
+    await expect(
+      controller.findAll(undefined, undefined, 'banana'),
+    ).rejects.toThrow(BadRequestException);
 
     expect(mockEventsService.findAll).not.toHaveBeenCalled();
   });
@@ -148,7 +170,12 @@ describe('EventsController', () => {
   it('should return event summary', async () => {
     const result = await controller.getSummary();
 
-    expect(result).toEqual(mockSummary);
+    expect(result).toEqual({
+      success: true,
+      message: 'Event summary retrieved successfully',
+      data: mockSummary,
+    });
+
     expect(mockEventsService.getSummary).toHaveBeenCalledWith();
   });
 
@@ -156,9 +183,11 @@ describe('EventsController', () => {
     const result = await controller.findOne('event-test-id');
 
     expect(result).toEqual({
-      data: mockEvent,
+      success: true,
       message: 'Event retrieved successfully',
+      data: mockEvent,
     });
+
     expect(mockEventsService.findOne).toHaveBeenCalledWith('event-test-id');
   });
 
@@ -166,9 +195,11 @@ describe('EventsController', () => {
     const result = await controller.markAsProcessed('event-test-id');
 
     expect(result).toEqual({
-      data: mockProcessedEvent,
+      success: true,
       message: 'Event marked as processed successfully',
+      data: mockProcessedEvent,
     });
+
     expect(mockEventsService.markAsProcessed).toHaveBeenCalledWith(
       'event-test-id',
     );
