@@ -26,6 +26,8 @@ Current status: **Active development**
 - Event creation endpoint added
 - Event list endpoint added
 - Event detail lookup endpoint added
+- Event processed status update endpoint added
+- Event filtering by `source`, `eventType`, and `processed` added
 - Basic validation and error handling added
 - Controller and service test coverage expanded
 - Basic testing workflow established
@@ -41,7 +43,6 @@ Current status: **Active development**
 
 ### Planned Work
 
-- Event processed/unprocessed status update endpoint
 - Event summary endpoint
 - API endpoint reference documentation
 - Additional test coverage
@@ -57,7 +58,9 @@ Current status: **Active development**
 - Request payload validation
 - SQLite database persistence
 - Event history retrieval
+- Event filtering by query parameters
 - Event detail lookup
+- Event processed/unprocessed status tracking
 - Not-found handling for missing events
 - Geofence CRUD support
 - Environment variable configuration
@@ -70,7 +73,6 @@ Current status: **Active development**
 
 - Event type classification
 - Event summary endpoint
-- Processed/unprocessed event tracking
 - Security-conscious request handling improvements
 - Expanded API documentation
 - Expanded testing documentation
@@ -102,10 +104,39 @@ Current status: **Active development**
 | Method | Endpoint | Purpose | Status |
 | --- | --- | --- | --- |
 | POST | `/events` | Receive and store event payloads | Implemented |
-| GET | `/events` | List stored events | Implemented |
+| GET | `/events` | List stored events with optional filtering | Implemented |
 | GET | `/events/:id` | Retrieve a single event | Implemented |
-| PATCH | `/events/:id/process` | Mark an event as processed | Planned |
+| PATCH | `/events/:id/process` | Mark an event as processed | Implemented |
 | GET | `/events/summary` | View event count summaries | Planned |
+
+### Event Filtering
+
+The event list endpoint supports optional query parameters for filtering stored webhook events.
+
+Endpoint:
+
+`GET /events`
+
+Supported query parameters:
+
+| Query Parameter | Type | Description | Example |
+| --- | --- | --- | --- |
+| `source` | `string` | Filters events by source system or service. | `stripe` |
+| `eventType` | `string` | Filters events by event type. | `payment.created` |
+| `processed` | `boolean-like string` | Filters events by processing status. Supported values are `true` and `false`. | `true` |
+
+Example requests:
+
+| Request | Purpose |
+| --- | --- |
+| `GET /events` | Retrieve all events |
+| `GET /events?source=stripe` | Retrieve events from a specific source |
+| `GET /events?eventType=payment.created` | Retrieve events by event type |
+| `GET /events?processed=true` | Retrieve processed events |
+| `GET /events?processed=false` | Retrieve unprocessed events |
+| `GET /events?source=stripe&eventType=payment.created&processed=false` | Combine multiple filters |
+
+Filtering is optional. If no query parameters are provided, the endpoint returns all stored events ordered by most recently received first.
 
 ### Geofence Endpoints
 
@@ -163,7 +194,7 @@ Current geofence fields include:
 Current test status:
 
 - Test suites: 3 passed / 3 total
-- Tests: 11 passed / 11 total
+- Tests: 15 passed / 15 total
 
 Current tested areas:
 
@@ -171,7 +202,9 @@ Current tested areas:
 - Events controller response handling
 - Events service creation behavior
 - Events service list retrieval behavior
+- Events service filtering behavior
 - Events service single-record lookup behavior
+- Events processed status update behavior
 - Events not-found error handling
 
 Recent Events coverage includes:
@@ -179,8 +212,14 @@ Recent Events coverage includes:
 - Creating an event through the controller
 - Returning all events with response metadata
 - Returning a single event by ID
+- Marking an event as processed through the controller
 - Creating an event through the service
 - Fetching events ordered by `receivedAt` descending
+- Filtering events by `source`
+- Filtering events by `eventType`
+- Filtering events by `processed`
+- Marking an event as processed through the service
+- Setting the `processedAt` timestamp when an event is processed
 - Throwing `NotFoundException` when an event ID does not exist
 
 ## Repository Structure
@@ -227,6 +266,7 @@ This project is intended to demonstrate:
 - SQLite persistence
 - Environment configuration
 - DTO-based validation
+- Query parameter filtering
 - Error handling patterns
 - CRUD endpoint design
 - Testable service and controller design
