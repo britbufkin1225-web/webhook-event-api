@@ -28,12 +28,16 @@ Current status: **Active development**
 - Event detail lookup endpoint added
 - Event processed status update endpoint added
 - Event filtering by `source`, `eventType`, and `processed` added
+- Event summary endpoint added
+- Event summary aggregation added for total, processed, and unprocessed events
+- Event summary grouping added by source and event type
+- Event summary controller test coverage added
+- Event summary service test coverage added
+- Event filtering, processing, and summary workflows tested
 - Basic validation and error handling added
 - Controller and service test coverage expanded
 - Basic testing workflow established
-- Event summary endpoint added
-- Event summary response expanded with processing, source, and event type counts
-- Repository documentation started
+- Repository documentation actively maintained
 
 ### Current Focus
 
@@ -62,6 +66,8 @@ Current status: **Active development**
 - Event filtering by query parameters
 - Event detail lookup
 - Event processed/unprocessed status tracking
+- Event summary reporting
+- Event summary aggregation by processing status, source, and event type
 - Not-found handling for missing events
 - Geofence CRUD support
 - Environment variable configuration
@@ -73,7 +79,6 @@ Current status: **Active development**
 ### Planned
 
 - Event type classification
-- Event summary endpoint
 - Security-conscious request handling improvements
 - Expanded API documentation
 - Expanded testing documentation
@@ -147,32 +152,15 @@ Endpoint:
 
 `GET /events/summary`
 
-The response includes:
+Returned summary data includes:
 
-- Total stored events
-- Total processed events
-- Total unprocessed events
-- Event counts grouped by source
-- Event counts grouped by event type
-
-Example response:
-
-```json
-{
-  "totalEvents": 10,
-  "processedEvents": 6,
-  "unprocessedEvents": 4,
-  "sources": {
-    "stripe": 5,
-    "github": 3,
-    "shopify": 2
-  },
-  "eventTypes": {
-    "payment.created": 4,
-    "repo.push": 3,
-    "order.created": 3
-  }
-}
+| Field | Description |
+|---|---|
+| `totalEvents` | Total number of stored events |
+| `processedEvents` | Number of events marked as processed |
+| `unprocessedEvents` | Number of events not yet processed |
+| `eventsBySource` | Event counts grouped by source |
+| `eventsByType` | Event counts grouped by event type |
 
 ### Geofence Endpoints
 
@@ -230,7 +218,7 @@ Current geofence fields include:
 Current test status:
 
 - Test suites: 3 passed / 3 total
-- Tests: 16 passed / 16 total
+- Tests: 18 passed / 18 total
 
 Current tested areas:
 
