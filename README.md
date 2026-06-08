@@ -35,6 +35,7 @@ Current status: **Active development**
 - Event summary service test coverage added
 - Event filtering, processing, and summary workflows tested
 - Standard event API response shape added
+- Standard API error response shape added
 - Basic validation and error handling added
 - Controller and service test coverage expanded
 - Basic testing workflow established
@@ -50,7 +51,7 @@ Current status: **Active development**
 
 ### Planned Work
 
-- API endpoint reference documentation
+- Dedicated API endpoint reference documentation
 - Additional test coverage
 - Request and security hardening improvements
 
@@ -70,7 +71,9 @@ Current status: **Active development**
 - Event summary reporting
 - Event summary aggregation by processing status, source, and event type
 - Standardized event API response structure
+- Standardized API error response structure
 - Not-found handling for missing events
+- Bad-request handling for invalid query filters
 - Geofence CRUD support
 - Environment variable configuration
 - Structured project documentation
@@ -212,6 +215,41 @@ Processed event response example:
   }
 }
 ```
+
+## Error Responses
+
+The API uses a consistent error response shape for failed requests.
+
+Example `404 Not Found` response:
+
+```json
+{
+  "success": false,
+  "message": "Event not found",
+  "error": "Not Found",
+  "statusCode": 404
+}
+```
+
+Example `400 Bad Request` response:
+
+```json
+{
+  "success": false,
+  "message": "Invalid processed filter. Use true or false.",
+  "error": "Bad Request",
+  "statusCode": 400
+}
+```
+
+### Error Response Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `success` | boolean | Always `false` for failed requests |
+| `message` | string or array | Human-readable error message |
+| `error` | string | Short HTTP error label |
+| `statusCode` | number | HTTP status code |
 
 ### Event Filtering
 
@@ -398,10 +436,15 @@ Current documentation includes:
 - [Environment Variables](docs/environment-variables.md)
 - [Project Overview](docs/project-overview.md)
 - [Session 7.5 — Documentation and Repository Polish](docs/session-7-5-repo-polish.md)
+- README API endpoint reference
+- README success response shape documentation
+- README error response shape documentation
+- README event filtering documentation
+- README event summary documentation
 
 Planned documentation includes:
 
-- API endpoint reference
+- Dedicated API endpoint reference
 - Database schema notes
 - Expanded testing notes
 - Development workflow notes
@@ -414,6 +457,7 @@ This project is intended to demonstrate:
 - Modular NestJS architecture
 - Request and response handling
 - Consistent API response design
+- Consistent API error response design
 - Database-backed event storage
 - Prisma ORM usage
 - SQLite persistence
