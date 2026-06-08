@@ -86,17 +86,17 @@ This confirms the application is not only passing tests, but can also run and re
 
 ### Current Focus
 
-- Keeping documentation aligned with implemented features
-- Improving event response consistency
-- Refining validation and error handling
-- Expanding controller and service test coverage
-- Preparing the project for cleaner portfolio presentation
+- Final documentation alignment
+- API response consistency review
+- Test coverage verification
+- Repository polish for portfolio presentation
 
 ### Planned Work
 
-- Dedicated API endpoint reference documentation
-- Additional test coverage
-- Request and security hardening improvements
+- Dedicated API endpoint reference in the `docs` folder
+- Expanded testing documentation
+- Request logging and security hardening improvements
+- Additional validation coverage
 
 ---
 
