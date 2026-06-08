@@ -1,6 +1,6 @@
 # Webhook Receiver + Event Processing API
 
-**Current backend verification:** 19/19 tests passing · API reference added · Working tree verified clean after Session 31
+**Current backend verification:** 19/19 tests passing · API reference added · README/API documentation synced
 
 A NestJS backend API for receiving, validating, storing, and reviewing webhook-style event records using Prisma and SQLite.
 
@@ -43,13 +43,13 @@ The backend foundation is functional and tested. Current work is focused on docu
 
 ### Current Verification Status
 
-| Check | Status |
-| --- | --- |
-| Test suite | 19/19 PASS |
-| Test suites | 4/4 PASS |
-| API reference documentation | Added |
-| README API section | Shortened and linked |
-| Git working tree after Session 31 | Clean |
+| Check                                                | Status     |
+| ---------------------------------------------------- | ---------- |
+| Test suite                                           | 19/19 PASS |
+| Test suites                                          | 4/4 PASS   |
+| API reference documentation                          | Added      |
+| README/API documentation                             | Synced     |
+| Git working tree after latest documentation workflow | Clean      |
 
 ---
 
@@ -59,14 +59,15 @@ The project is currently verified through automated testing, documentation revie
 
 ### Latest Verification Checkpoint
 
-| Area | Result |
-| --- | --- |
-| Unit and controller tests | PASS |
-| Service logic tests | PASS |
-| Error response documentation | Updated |
-| API reference documentation | Added |
-| README API section | Updated |
-| Git working tree | Clean |
+| Area                         | Result    |
+| ---------------------------- | --------- |
+| Unit and controller tests    | PASS      |
+| Service logic tests          | PASS      |
+| Error response documentation | Updated   |
+| API reference documentation  | Added     |
+| README API section           | Updated   |
+| README/API consistency audit | Completed |
+| Git working tree             | Clean     |
 
 ### Verification Summary
 
@@ -100,7 +101,7 @@ Version `v0.1.0` represents the initial working backend foundation, including ev
 
 ### Implemented
 
-* Basic API root response
+* Basic application root response
 * API health check
 * Webhook-style event creation
 * Request payload validation
@@ -124,6 +125,8 @@ Version `v0.1.0` represents the initial working backend foundation, including ev
 
 ### Planned
 
+* Event delete endpoint
+* Expanded CRUD documentation
 * Event type classification
 * Request logging improvements
 * Security-conscious request handling improvements
@@ -135,15 +138,15 @@ Version `v0.1.0` represents the initial working backend foundation, including ev
 
 ## Tech Stack
 
-| Area | Technology |
-| --- | --- |
-| Runtime | Node.js |
-| Framework | NestJS |
-| Language | TypeScript |
-| Database | SQLite |
-| ORM | Prisma |
-| Testing | Jest |
-| Documentation | Markdown |
+| Area            | Technology   |
+| --------------- | ------------ |
+| Runtime         | Node.js      |
+| Framework       | NestJS       |
+| Language        | TypeScript   |
+| Database        | SQLite       |
+| ORM             | Prisma       |
+| Testing         | Jest         |
+| Documentation   | Markdown     |
 | Version Control | Git + GitHub |
 
 ---
@@ -160,15 +163,15 @@ The API currently supports event creation, event listing, event filtering, event
 
 ### Current Endpoints
 
-| Method | Endpoint | Description |
-| --- | --- | --- |
-| `GET` | `/` | Basic application root response. |
-| `GET` | `/health` | Basic API health check. |
-| `POST` | `/events` | Creates a new event. |
-| `GET` | `/events` | Lists events with optional filtering. |
-| `GET` | `/events/summary` | Returns event summary statistics. |
-| `GET` | `/events/:id` | Returns a single event by ID. |
-| `PATCH` | `/events/:id/processed` | Marks an event as processed. |
+| Method  | Endpoint                | Description                           |
+| ------- | ----------------------- | ------------------------------------- |
+| `GET`   | `/`                     | Basic application root response.      |
+| `GET`   | `/health`               | Basic API health check.               |
+| `POST`  | `/events`               | Creates a new event.                  |
+| `GET`   | `/events`               | Lists events with optional filtering. |
+| `GET`   | `/events/summary`       | Returns event summary statistics.     |
+| `GET`   | `/events/:id`           | Returns a single event by ID.         |
+| `PATCH` | `/events/:id/processed` | Marks an event as processed.          |
 
 Full endpoint details are available in the dedicated [API Reference](docs/API_REFERENCE.md).
 
@@ -178,13 +181,13 @@ Full endpoint details are available in the dedicated [API Reference](docs/API_RE
 
 Additional project documentation is available in the `docs` folder.
 
-| Document | Description |
-| --- | --- |
-| [API Reference](docs/API_REFERENCE.md) | Full endpoint reference, request examples, response shapes, filtering options, and standard error format. |
-| [Documentation Index](docs/README.md) | Index of available project documentation. |
-| [Environment Variables](docs/environment-variables.md) | Environment variable setup notes. |
-| [Project Overview](docs/project-overview.md) | Higher-level project overview and purpose. |
-| [Session 7.5 — Documentation and Repository Polish](docs/session-7-5-repo-polish.md) | Earlier documentation and repository polish notes. |
+| Document                                                                             | Description                                                                                               |
+| ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+| [API Reference](docs/API_REFERENCE.md)                                               | Full endpoint reference, request examples, response shapes, filtering options, and standard error format. |
+| [Documentation Index](docs/README.md)                                                | Index of available project documentation.                                                                 |
+| [Environment Variables](docs/environment-variables.md)                               | Environment variable setup notes.                                                                         |
+| [Project Overview](docs/project-overview.md)                                         | Higher-level project overview and purpose.                                                                |
+| [Session 7.5 — Documentation and Repository Polish](docs/session-7-5-repo-polish.md) | Earlier documentation and repository polish notes.                                                        |
 
 ---
 
@@ -241,6 +244,7 @@ Current test status:
 ### Current Tested Areas
 
 * App controller default behavior
+* App controller health check behavior
 * Events controller response handling
 * Events controller response metadata
 * Events controller query validation
@@ -341,6 +345,7 @@ This project is intended to demonstrate:
 * Geofence API routes are planned but not currently exposed.
 * Authentication and authorization are not yet implemented.
 * Request logging and audit-style tracking are planned future improvements.
+* Full delete behavior for event records is planned for a later CRUD expansion session.
 * The project currently uses SQLite for local development and portfolio demonstration.
 
 ---
@@ -349,6 +354,8 @@ This project is intended to demonstrate:
 
 Planned improvements include:
 
+* Event delete endpoint
+* Expanded CRUD endpoint coverage
 * Request logging
 * Authentication or API key protection
 * Expanded validation coverage
