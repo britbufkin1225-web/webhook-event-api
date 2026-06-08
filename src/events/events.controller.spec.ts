@@ -42,6 +42,7 @@ describe('EventsController', () => {
     findAll: jest.fn().mockResolvedValue([]),
     findOne: jest.fn().mockResolvedValue(mockEvent),
     markAsProcessed: jest.fn().mockResolvedValue(mockProcessedEvent),
+    remove: jest.fn().mockResolvedValue(mockEvent),
     getSummary: jest.fn().mockResolvedValue(mockSummary),
   };
 
@@ -203,5 +204,17 @@ describe('EventsController', () => {
     expect(mockEventsService.markAsProcessed).toHaveBeenCalledWith(
       'event-test-id',
     );
+  });
+
+  it('should delete an event', async () => {
+    const result = await controller.remove('event-test-id');
+
+    expect(result).toEqual({
+      success: true,
+      message: 'Event deleted successfully',
+      data: mockEvent,
+    });
+
+    expect(mockEventsService.remove).toHaveBeenCalledWith('event-test-id');
   });
 });

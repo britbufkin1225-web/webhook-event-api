@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -79,6 +80,17 @@ export class EventsController {
     return {
       success: true,
       message: 'Event marked as processed successfully',
+      data: event,
+    };
+  }
+
+  @Delete(':id')
+  async remove(@Param('id') id: string) {
+    const event = await this.eventsService.remove(id);
+
+    return {
+      success: true,
+      message: 'Event deleted successfully',
       data: event,
     };
   }
