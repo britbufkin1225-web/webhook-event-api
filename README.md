@@ -4,15 +4,27 @@ A NestJS backend API for receiving, validating, storing, and reviewing webhook-s
 
 This project is designed as a portfolio-ready backend system that demonstrates API design, request handling, validation, database persistence, documentation, testing, and security-aware development practices.
 
+---
+
 ## Project Purpose
 
 Modern applications often rely on webhooks to send event notifications between services. This project simulates a production-style webhook receiver that can accept incoming event data, validate request payloads, store event records, and expose API endpoints for reviewing event activity.
 
 The goal is to build a compact but professional backend API that demonstrates real-world backend development patterns without unnecessary complexity.
 
+---
+
 ## Project Status
 
 Current status: **Active development**
+
+## Version
+
+Current version: **v0.1.0**
+
+Base API version: `/api/v1`
+
+This project is currently in active development. Version `v0.1.0` represents the initial working backend foundation, including event creation, event retrieval, filtering, processed status updates, summary reporting, standardized error responses, documentation updates, and test coverage.
 
 ### Completed Foundation Work
 
@@ -55,6 +67,8 @@ Current status: **Active development**
 - Additional test coverage
 - Request and security hardening improvements
 
+---
+
 ## Core Features
 
 ### Implemented
@@ -88,6 +102,8 @@ Current status: **Active development**
 - Expanded API documentation
 - Expanded testing documentation
 
+---
+
 ## Tech Stack
 
 | Area | Technology |
@@ -101,30 +117,48 @@ Current status: **Active development**
 | Documentation | Markdown |
 | Version Control | Git + GitHub |
 
-## API Endpoints
+---
 
-### Application Endpoints
+## API Documentation
+
+Unless otherwise noted, endpoint paths below are shown relative to the base API version `/api/v1`.
+
+The API currently exposes application health endpoints, event management endpoints, event summary reporting, and geofence CRUD endpoints.
+
+### Base Application Endpoints
 
 | Method | Endpoint | Purpose | Status |
 | --- | --- | --- | --- |
-| GET | `/` | Basic root response | Implemented |
-| GET | `/health` | API health check | Implemented |
+| GET | `/` | Returns a basic root response | Implemented |
+| GET | `/health` | Returns API health status | Implemented |
+
+---
+
+## Event API
+
+The Event API is the main feature of this project. It supports receiving webhook-style event payloads, retrieving event history, filtering stored events, viewing individual event records, marking events as processed, and reviewing aggregate event summaries.
 
 ### Event Endpoints
 
 | Method | Endpoint | Purpose | Status |
 | --- | --- | --- | --- |
-| POST | `/events` | Receive and store event payloads | Implemented |
+| POST | `/events` | Receive and store an event payload | Implemented |
 | GET | `/events` | List stored events with optional filtering | Implemented |
-| GET | `/events/:id` | Retrieve a single event | Implemented |
+| GET | `/events/:id` | Retrieve a single event by ID | Implemented |
 | PATCH | `/events/:id/processed` | Mark an event as processed | Implemented |
-| GET | `/events/summary` | View event count summaries grouped by processing status, source, and event type | Implemented |
+| GET | `/events/summary` | View aggregate event summary data | Implemented |
 
-### Standard Event API Response Shape
+---
 
-Event endpoints return a consistent response object containing a success flag, message, and data payload.
+## Standard Success Response Shape
 
-Standard success response format:
+Event endpoints return a consistent response object containing:
+
+- `success`
+- `message`
+- `data`
+
+### Standard Success Format
 
 ```json
 {
@@ -132,9 +166,22 @@ Standard success response format:
   "message": "Request completed successfully",
   "data": {}
 }
+
 ```
 
-Create event response example:
+### Success Response Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `success` | boolean | Indicates whether the request completed successfully |
+| `message` | string | Human-readable response message |
+| `data` | object or array | Returned API payload |
+
+---
+
+## Event Response Examples
+
+### Create Event Response
 
 ```json
 {
@@ -154,7 +201,7 @@ Create event response example:
 }
 ```
 
-List events response example:
+### List Events Response
 
 ```json
 {
@@ -176,7 +223,7 @@ List events response example:
 }
 ```
 
-Single event response example:
+### Single Event Response
 
 ```json
 {
@@ -196,7 +243,7 @@ Single event response example:
 }
 ```
 
-Processed event response example:
+### Processed Event Response
 
 ```json
 {
@@ -216,77 +263,27 @@ Processed event response example:
 }
 ```
 
-## Error Responses
+---
 
-The API uses a consistent JSON error response shape for failed requests.
-
-Standard error response format:
-
-```json
-{
-  "statusCode": 400,
-  "timestamp": "2026-06-07T00:00:00.000Z",
-  "path": "/events",
-  "method": "POST",
-  "message": "Validation failed",
-  "error": "Bad Request"
-}
-```
-
-Example `404 Not Found` response:
-
-```json
-{
-  "statusCode": 404,
-  "timestamp": "2026-06-07T00:00:00.000Z",
-  "path": "/events/event-test-id",
-  "method": "GET",
-  "message": "Event not found",
-  "error": "Not Found"
-}
-```
-
-Example `400 Bad Request` response:
-
-```json
-{
-  "statusCode": 400,
-  "timestamp": "2026-06-07T00:00:00.000Z",
-  "path": "/events?processed=maybe",
-  "method": "GET",
-  "message": "Invalid processed filter. Use true or false.",
-  "error": "Bad Request"
-}
-```
-
-### Error Response Fields
-
-| Field | Type | Description |
-| --- | --- | --- |
-| `statusCode` | number | HTTP status code returned by the API |
-| `timestamp` | string | ISO timestamp when the error occurred |
-| `path` | string | Request path that caused the error |
-| `method` | string | HTTP method used for the request |
-| `message` | string or string[] | Error message or validation messages |
-| `error` | string | Short HTTP error label |
-
-### Event Filtering
+## Event Filtering
 
 The event list endpoint supports optional query parameters for filtering stored webhook events.
 
-Endpoint:
+### Endpoint
 
-`GET /events`
+```http
+GET /events
+```
 
-Supported query parameters:
+### Supported Query Parameters
 
 | Query Parameter | Type | Description | Example |
 | --- | --- | --- | --- |
-| `source` | `string` | Filters events by source system or service. | `stripe` |
-| `eventType` | `string` | Filters events by event type. | `payment.created` |
-| `processed` | `boolean-like string` | Filters events by processing status. Supported values are `true` and `false`. | `true` |
+| `source` | `string` | Filters events by source system or service | `stripe` |
+| `eventType` | `string` | Filters events by event type | `payment.created` |
+| `processed` | `boolean-like string` | Filters events by processing status. Supported values are `true` and `false` | `true` |
 
-Example requests:
+### Example Requests
 
 | Request | Purpose |
 | --- | --- |
@@ -299,17 +296,24 @@ Example requests:
 
 Filtering is optional. If no query parameters are provided, the endpoint returns all stored events ordered by most recently received first.
 
-Invalid `processed` query values are rejected. The only supported values are `true` and `false`.
+Invalid `processed` query values are rejected. The only supported values are:
 
-### Event Summary
+- `true`
+- `false`
+
+---
+
+## Event Summary
 
 The event summary endpoint returns aggregate statistics for stored webhook events.
 
-Endpoint:
+### Endpoint
 
-`GET /events/summary`
+```http
+GET /events/summary
+```
 
-Returned summary data includes:
+### Summary Data Fields
 
 | Field | Description |
 | --- | --- |
@@ -319,7 +323,7 @@ Returned summary data includes:
 | `sources` | Event counts grouped by source |
 | `eventTypes` | Event counts grouped by event type |
 
-Example response:
+### Example Response
 
 ```json
 {
@@ -339,6 +343,68 @@ Example response:
 }
 ```
 
+---
+
+## Error Responses
+
+The API uses a consistent JSON error response shape for failed requests.
+
+### Standard Error Format
+
+```json
+{
+  "statusCode": 400,
+  "timestamp": "2026-06-07T00:00:00.000Z",
+  "path": "/events",
+  "method": "POST",
+  "message": "Validation failed",
+  "error": "Bad Request"
+}
+```
+
+### Error Response Fields
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `statusCode` | number | HTTP status code returned by the API |
+| `timestamp` | string | ISO timestamp when the error occurred |
+| `path` | string | Request path that caused the error |
+| `method` | string | HTTP method used for the request |
+| `message` | string or string[] | Error message or validation messages |
+| `error` | string | Short HTTP error label |
+
+### Example `404 Not Found` Response
+
+```json
+{
+  "statusCode": 404,
+  "timestamp": "2026-06-07T00:00:00.000Z",
+  "path": "/events/event-test-id",
+  "method": "GET",
+  "message": "Event not found",
+  "error": "Not Found"
+}
+```
+
+### Example `400 Bad Request` Response
+
+```json
+{
+  "statusCode": 400,
+  "timestamp": "2026-06-07T00:00:00.000Z",
+  "path": "/events?processed=maybe",
+  "method": "GET",
+  "message": "Invalid processed filter. Use true or false.",
+  "error": "Bad Request"
+}
+```
+
+---
+
+## Geofence API
+
+The project also includes geofence CRUD support.
+
 ### Geofence Endpoints
 
 | Method | Endpoint | Purpose | Status |
@@ -351,6 +417,8 @@ Example response:
 
 Endpoint names and behavior may evolve as the project is refined.
 
+---
+
 ## Database Models
 
 Current Prisma models include:
@@ -358,7 +426,7 @@ Current Prisma models include:
 - `Event`
 - `Geofence`
 
-### Event
+### Event Model
 
 The `Event` model stores incoming webhook-style records and tracks basic event metadata.
 
@@ -374,7 +442,7 @@ Current event fields include:
 - `createdAt`
 - `updatedAt`
 
-### Geofence
+### Geofence Model
 
 The `Geofence` model supports location-based records with coordinates, radius, active status, and timestamps.
 
@@ -390,6 +458,8 @@ Current geofence fields include:
 - `createdAt`
 - `updatedAt`
 
+---
+
 ## Testing Status
 
 Current test status:
@@ -397,7 +467,7 @@ Current test status:
 - Test suites: 3 passed / 3 total
 - Tests: 16 passed / 16 total
 
-Current tested areas:
+### Current Tested Areas
 
 - App controller default behavior
 - Events controller response handling
@@ -411,7 +481,7 @@ Current tested areas:
 - Events not-found error handling
 - Event summary aggregation behavior
 
-Recent Events coverage includes:
+### Recent Events Coverage
 
 - Creating an event through the controller
 - Returning all events with response metadata
@@ -431,6 +501,8 @@ Recent Events coverage includes:
 - Returning processed and unprocessed event counts
 - Returning event counts grouped by source and event type
 
+---
+
 ## Repository Structure
 
 ```text
@@ -444,6 +516,8 @@ webhook-event-api/
 ├── README.md       # Project overview
 └── package.json    # Project scripts and dependencies
 ```
+
+---
 
 ## Documentation
 
@@ -468,6 +542,8 @@ Planned documentation includes:
 - Expanded testing notes
 - Development workflow notes
 
+---
+
 ## Portfolio Value
 
 This project is intended to demonstrate:
@@ -489,11 +565,15 @@ This project is intended to demonstrate:
 - Professional documentation habits
 - Security-aware backend thinking
 
+---
+
 ## Development Notes
 
 This project is being built in small, documented sessions. Each session focuses on one clear improvement so the repository remains clean, understandable, and easy to review.
 
 Private local workflow notes and shorthand references are intentionally excluded from version control.
+
+---
 
 ## License
 
