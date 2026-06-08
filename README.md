@@ -45,7 +45,7 @@ The backend foundation is functional and tested. Current work is focused on docu
 
 | Check                                                | Status     |
 | ---------------------------------------------------- | ---------- |
-| Test suite                                           | 19/19 PASS |
+| Test suite                                           | 20/20 PASS |
 | Test suites                                          | 4/4 PASS   |
 | API reference documentation                          | Added      |
 | README/API documentation                             | Synced     |
@@ -77,7 +77,7 @@ Current verification result:
 
 ```text
 Test suites: 4/4 PASS
-Tests: 19/19 PASS
+Tests: 20/20 PASS
 Git working tree: clean
 Documentation status: updated
 Backend code changes made: none
@@ -93,7 +93,7 @@ Current version: **v0.1.0**
 
 Base API version: `/api/v1`
 
-Version `v0.1.0` represents the initial working backend foundation, including event creation, event retrieval, filtering, processed status updates, summary reporting, standardized error responses, documentation updates, and test coverage.
+Version `v0.1.0` represents the initial working backend foundation, including event creation, event retrieval, filtering, detail lookup, processed status updates, event deletion, summary reporting, standardized error responses, documentation updates, and test coverage.
 
 ---
 
@@ -102,7 +102,6 @@ Version `v0.1.0` represents the initial working backend foundation, including ev
 ### Implemented
 
 * Basic application root response
-* API health check
 * Webhook-style event creation
 * Request payload validation
 * SQLite database persistence
@@ -110,6 +109,7 @@ Version `v0.1.0` represents the initial working backend foundation, including ev
 * Event filtering by query parameters
 * Event detail lookup
 * Event processed/unprocessed status tracking
+* Event deletion
 * Event summary reporting
 * Event summary aggregation by processing status, source, and event type
 * Standardized event API response structure
@@ -125,7 +125,6 @@ Version `v0.1.0` represents the initial working backend foundation, including ev
 
 ### Planned
 
-* Event delete endpoint
 * Expanded CRUD documentation
 * Event type classification
 * Request logging improvements
@@ -159,14 +158,19 @@ Unless otherwise noted, endpoint paths are shown relative to the base API versio
 /api/v1
 ```
 
-The API currently supports event creation, event listing, event filtering, event detail lookup, processed status updates, event summary statistics, health checks, and standardized error responses.
+The root application route is available outside the API version prefix:
+
+```text
+GET /
+```
+
+The API currently supports event creation, event listing, event filtering, event detail lookup, processed status updates, event deletion, event summary statistics, and standardized error responses.
 
 ### Current Endpoints
 
 | Method   | Endpoint                | Description                           |
 | -------- | ----------------------- | ------------------------------------- |
 | `GET`    | `/`                     | Basic application root response.      |
-| `GET`    | `/health`               | Basic API health check.               |
 | `POST`   | `/events`               | Creates a new event.                  |
 | `GET`    | `/events`               | Lists events with optional filtering. |
 | `GET`    | `/events/summary`       | Returns event summary statistics.     |
@@ -240,20 +244,21 @@ Geofence API routes are not currently exposed in the application source code.
 Current test status:
 
 * Test suites: 4 passed / 4 total
-* Tests: 19 passed / 19 total
+* Tests: 20 passed / 20 total
 
 ### Current Tested Areas
 
 * App controller default behavior
-* App controller health check behavior
 * Events controller response handling
 * Events controller response metadata
 * Events controller query validation
+* Events controller delete response handling
 * Events service creation behavior
 * Events service list retrieval behavior
 * Events service filtering behavior
 * Events service single-record lookup behavior
 * Events processed status update behavior
+* Events delete behavior
 * Events not-found error handling
 * Event summary aggregation behavior
 * Standardized error response behavior
@@ -346,7 +351,6 @@ This project is intended to demonstrate:
 * Geofence API routes are planned but not currently exposed.
 * Authentication and authorization are not yet implemented.
 * Request logging and audit-style tracking are planned future improvements.
-* Full delete behavior for event records is planned for a later CRUD expansion session.
 * The project currently uses SQLite for local development and portfolio demonstration.
 
 ---
@@ -355,8 +359,7 @@ This project is intended to demonstrate:
 
 Planned improvements include:
 
-* Event delete endpoint
-* Expanded CRUD endpoint coverage
+* Expanded CRUD endpoint documentation
 * Request logging
 * Authentication or API key protection
 * Expanded validation coverage
