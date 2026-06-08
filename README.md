@@ -218,16 +218,31 @@ Processed event response example:
 
 ## Error Responses
 
-The API uses a consistent error response shape for failed requests.
+The API uses a consistent JSON error response shape for failed requests.
+
+Standard error response format:
+
+```json
+{
+  "statusCode": 400,
+  "timestamp": "2026-06-07T00:00:00.000Z",
+  "path": "/events",
+  "method": "POST",
+  "message": "Validation failed",
+  "error": "Bad Request"
+}
+```
 
 Example `404 Not Found` response:
 
 ```json
 {
-  "success": false,
+  "statusCode": 404,
+  "timestamp": "2026-06-07T00:00:00.000Z",
+  "path": "/events/event-test-id",
+  "method": "GET",
   "message": "Event not found",
-  "error": "Not Found",
-  "statusCode": 404
+  "error": "Not Found"
 }
 ```
 
@@ -235,10 +250,12 @@ Example `400 Bad Request` response:
 
 ```json
 {
-  "success": false,
+  "statusCode": 400,
+  "timestamp": "2026-06-07T00:00:00.000Z",
+  "path": "/events?processed=maybe",
+  "method": "GET",
   "message": "Invalid processed filter. Use true or false.",
-  "error": "Bad Request",
-  "statusCode": 400
+  "error": "Bad Request"
 }
 ```
 
@@ -246,10 +263,12 @@ Example `400 Bad Request` response:
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `success` | boolean | Always `false` for failed requests |
-| `message` | string or array | Human-readable error message |
+| `statusCode` | number | HTTP status code returned by the API |
+| `timestamp` | string | ISO timestamp when the error occurred |
+| `path` | string | Request path that caused the error |
+| `method` | string | HTTP method used for the request |
+| `message` | string or string[] | Error message or validation messages |
 | `error` | string | Short HTTP error label |
-| `statusCode` | number | HTTP status code |
 
 ### Event Filtering
 
