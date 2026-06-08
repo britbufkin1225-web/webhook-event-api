@@ -163,15 +163,16 @@ The API currently supports event creation, event listing, event filtering, event
 
 ### Current Endpoints
 
-| Method  | Endpoint                | Description                           |
-| ------- | ----------------------- | ------------------------------------- |
-| `GET`   | `/`                     | Basic application root response.      |
-| `GET`   | `/health`               | Basic API health check.               |
-| `POST`  | `/events`               | Creates a new event.                  |
-| `GET`   | `/events`               | Lists events with optional filtering. |
-| `GET`   | `/events/summary`       | Returns event summary statistics.     |
-| `GET`   | `/events/:id`           | Returns a single event by ID.         |
-| `PATCH` | `/events/:id/processed` | Marks an event as processed.          |
+| Method   | Endpoint                | Description                           |
+| -------- | ----------------------- | ------------------------------------- |
+| `GET`    | `/`                     | Basic application root response.      |
+| `GET`    | `/health`               | Basic API health check.               |
+| `POST`   | `/events`               | Creates a new event.                  |
+| `GET`    | `/events`               | Lists events with optional filtering. |
+| `GET`    | `/events/summary`       | Returns event summary statistics.     |
+| `GET`    | `/events/:id`           | Returns a single event by ID.         |
+| `PATCH`  | `/events/:id/processed` | Marks an event as processed.          |
+| `DELETE` | `/events/:id`           | Deletes an event by ID.               |
 
 Full endpoint details are available in the dedicated [API Reference](docs/API_REFERENCE.md).
 
