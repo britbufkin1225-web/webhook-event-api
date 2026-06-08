@@ -393,7 +393,7 @@ DELETE /events/event-id
 | `GET`    | `/events/summary`       | Returns event summary statistics.     |
 | `GET`    | `/events/:id`           | Returns a single event by ID.         |
 | `PATCH`  | `/events/:id/processed` | Marks an event as processed.          |
-| `DELETE` | `/events/:id`           | Deletes an event by ID.               ||
+| `DELETE` | `/events/:id`           | Deletes an event by ID.               |
 
 ---
 
