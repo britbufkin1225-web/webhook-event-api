@@ -72,16 +72,14 @@ Validation and HTTP errors use a consistent response shape.
 
 ### `GET /`
 
-Returns a basic application root health message.
+Returns a basic application root response.
 
 This route is available outside the base API version.
 
-### Root Health Example Response
+### Root Example Response
 
-```json
-{
-  "message": "Webhook Receiver API is running"
-}
+```text
+Webhook Receiver API is running
 ```
 
 ---
@@ -389,14 +387,13 @@ DELETE /events/event-id
 
 | Method   | Endpoint                | Description                           |
 | -------- | ----------------------- | ------------------------------------- |
-| `GET`    | `/`                     | Basic application root health check.  |
-| `GET`    | `/health`               | Basic API health check.               |
+| `GET`    | `/`                     | Basic application root response.      |
 | `POST`   | `/events`               | Creates a new event.                  |
 | `GET`    | `/events`               | Lists events with optional filtering. |
 | `GET`    | `/events/summary`       | Returns event summary statistics.     |
 | `GET`    | `/events/:id`           | Returns a single event by ID.         |
 | `PATCH`  | `/events/:id/processed` | Marks an event as processed.          |
-| `DELETE` | `/events/:id`           | Deletes an event by ID.               |
+| `DELETE` | `/events/:id`           | Deletes an event by ID.               ||
 
 ---
 
