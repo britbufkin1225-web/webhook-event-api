@@ -1,5 +1,7 @@
 # Webhook Receiver + Event Processing API
 
+**Current backend verification:** 44/44 tests passing · Live health check passing · Working tree clean
+
 A NestJS backend API for receiving, validating, storing, and reviewing webhook-style event records using Prisma and SQLite.
 
 This project is designed as a portfolio-ready backend system that demonstrates API design, request handling, validation, database persistence, documentation, testing, and security-aware development practices.
@@ -26,6 +28,35 @@ Base API version: `/api/v1`
 
 This project is currently in active development. Version `v0.1.0` represents the initial working backend foundation, including event creation, event retrieval, filtering, processed status updates, summary reporting, standardized error responses, documentation updates, and test coverage.
 
+## Verification Status
+
+Latest verification checkpoint confirms the backend can start, pass tests, respond locally, and shut down cleanly.
+
+| Check | Status |
+| --- | ---: |
+| Backend health route | PASS |
+| Server startup | PASS |
+| Test suite | 44/44 PASS |
+| Live local health check | PASS |
+| Clean shutdown | PASS |
+| Git working tree | Clean |
+| Code changes required | None |
+
+This checkpoint verifies more than isolated unit tests. It confirms the backend can run locally and respond through the actual health endpoint.
+
+### Integration Verification
+
+The backend has been verified through an integration-style workflow:
+
+1. Repository inspection
+2. Route tracing
+3. Full test suite execution
+4. Live server startup
+5. Local health endpoint request
+6. Clean server shutdown
+
+This confirms the application is not only passing tests, but can also run and respond successfully in a local environment.
+
 ### Completed Foundation Work
 
 - NestJS application initialized
@@ -33,7 +64,7 @@ This project is currently in active development. Version `v0.1.0` represents the
 - SQLite database foundation added
 - Environment variables documented
 - Event model added to Prisma schema
-- Geofence model restored to Prisma schema
+- Geofence database model restored to Prisma schema
 - Events module foundation created
 - Event creation endpoint added
 - Event list endpoint added
@@ -88,7 +119,7 @@ This project is currently in active development. Version `v0.1.0` represents the
 - Standardized API error response structure
 - Not-found handling for missing events
 - Bad-request handling for invalid query filters
-- Geofence CRUD support
+- Geofence database model foundation
 - Environment variable configuration
 - Structured project documentation
 - Jest-based testing workflow
@@ -401,21 +432,19 @@ The API uses a consistent JSON error response shape for failed requests.
 
 ---
 
-## Geofence API
+## Geofence Foundation
 
-The project also includes geofence CRUD support.
+The project includes a geofence database model foundation. API routes for geofence CRUD operations are not currently exposed in the application source code.
 
-### Geofence Endpoints
+### Geofence API Status
 
-| Method | Endpoint | Purpose | Status |
-| --- | --- | --- | --- |
-| POST | `/geofences` | Create a geofence | Implemented |
-| GET | `/geofences` | List geofences | Implemented |
-| GET | `/geofences/:id` | Retrieve a single geofence | Implemented |
-| PATCH | `/geofences/:id` | Update a geofence | Implemented |
-| DELETE | `/geofences/:id` | Delete a geofence | Implemented |
-
-Endpoint names and behavior may evolve as the project is refined.
+| Area | Status |
+| --- | --- |
+| Geofence Prisma model | Foundation added |
+| Geofence database migration | Foundation added |
+| Geofence API controller | Planned |
+| Geofence API service | Planned |
+| Geofence CRUD endpoints | Planned |
 
 ---
 
