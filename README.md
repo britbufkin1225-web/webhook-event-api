@@ -91,7 +91,7 @@ This confirms that the documented project state matches the current implementati
 
 ## Version
 
-Current version: **v0.1.0**
+Current version: **v0.2.0**
 
 Base API version: `/api/v1`
 
