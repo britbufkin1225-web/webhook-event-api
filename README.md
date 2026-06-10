@@ -83,11 +83,6 @@ Tests: 20/20 PASS
 Git working tree: clean
 Documentation status: updated
 Backend code changes made: none
-```
-
-This confirms that the documented project state matches the current implementation and that the repository is clean after the latest completed documentation workflow.
-
----
 
 ## Version
 
@@ -158,7 +153,6 @@ Unless otherwise noted, endpoint paths are shown relative to the base API versio
 
 ```text
 /api/v1
-```
 
 The root application route is available outside the API version prefix:
 
@@ -195,6 +189,30 @@ Additional project documentation is available in the `docs` folder.
 | [Environment Variables](docs/environment-variables.md)                               | Environment variable setup notes.                                                                         |
 | [Project Overview](docs/project-overview.md)                                         | Higher-level project overview and purpose.                                                                |
 | [Session 7.5 — Documentation and Repository Polish](docs/session-7-5-repo-polish.md) | Earlier documentation and repository polish notes.                                                        |
+
+---
+
+## Portfolio Screenshots
+
+### README Overview
+
+![README overview](docs/screenshots/01-readme-overview.png)
+
+### API Reference
+
+![API reference](docs/screenshots/02-api-reference.png)
+
+### Tests Passing
+
+![Tests passing](docs/screenshots/03-tests-pass.png)
+
+### API Response
+
+![API response](docs/screenshots/04-api-response.png)
+
+### Prisma Schema
+
+![Prisma schema](docs/screenshots/05-prisma-schema.png)
 
 ---
 
