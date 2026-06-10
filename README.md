@@ -192,30 +192,6 @@ Additional project documentation is available in the `docs` folder.
 
 ---
 
-## Portfolio Screenshots
-
-### README Overview
-
-![README overview](docs/screenshots/01-readme-overview.png)
-
-### API Reference
-
-![API reference](docs/screenshots/02-api-reference.png)
-
-### Tests Passing
-
-![Tests passing](docs/screenshots/03-tests-pass.png)
-
-### API Response
-
-![API response](docs/screenshots/04-api-response.png)
-
-### Prisma Schema
-
-![Prisma schema](docs/screenshots/05-prisma-schema.png)
-
----
-
 ## Database Models
 
 Current Prisma models include:
